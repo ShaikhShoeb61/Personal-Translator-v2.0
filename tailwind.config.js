@@ -14,13 +14,13 @@ export default {
       // Define custom colors
       colors: {
         // Green palette
-        green: {
-          50: '#00cc00', // Lightest shade, used for hover
+        customgreen: {
+          50: '#f5f5f5', // Lightest shade, used for hover
           500: '#4caf50', // Primary color
         },
         // Grey palette
-        gray: {
-          200: 'C1C1C1',  // Extra lighter of gray
+        customgray: {
+          200: '#C1C1C1',  // Extra lighter of gray
           300: '#7C7F81', // Lighter shade of grey
           400: '#636669', // Hover color variant
           500: '#3C4043', // Secondary color
@@ -28,6 +28,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),  // default: 'standard'
+  ],
 }
 

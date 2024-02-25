@@ -18,3 +18,20 @@ body{
   font-family: 'Roboto' , 'Noto Nastaliq Urdu'  , 'Tiro Devanagari Hindi' , sans-serif;
 }
 
+
+/* CSS for custom scrollbar */
+
+.sbar::-webkit-scrollbar {
+  width: 6px; /* Width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Make scrollbar track invisible */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7C7F81; /* Color of the thumb */
+
+}
+
+
