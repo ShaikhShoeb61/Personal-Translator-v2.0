@@ -1,5 +1,5 @@
 // DropdownSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   InputDropdownActive: false,
@@ -7,23 +7,36 @@ const initialState = {
 };
 
 const DropdownSlice = createSlice({
-  name: 'Dropdown',
+  name: "Dropdown",
   initialState,
   reducers: {
     toggleInputDropdown(state) {
-      state.InputDropdownActive = !state.InputDropdownActive;
-      if (state.InputDropdownActive) {
-        state.OutputDropdownActive = false; // Set output to false when input is true
+      if (state.OutputDropdownActive) {
+        state.OutputDropdownActive = false;
+        state.InputDropdownActive = false;
+        return;
       }
+
+      state.InputDropdownActive = !state.InputDropdownActive;
     },
     toggleOutputDropdown(state) {
-      state.OutputDropdownActive = !state.OutputDropdownActive;
-      if (state.OutputDropdownActive) {
-        state.InputDropdownActive = false; // Set output to false when input is true
+      if (state.InputDropdownActive) {
+        state.InputDropdownActive = false;
+        state.OutputDropdownActive = false;
+        return;
       }
+      state.OutputDropdownActive = !state.OutputDropdownActive;
+    },
+    toggleVisibilityClose(state) {
+      state.OutputDropdownActive = false;
+      state.InputDropdownActive = false;
     },
   },
 });
 
-export const { toggleInputDropdown, toggleOutputDropdown } = DropdownSlice.actions;
+export const {
+  toggleInputDropdown,
+  toggleOutputDropdown,
+  toggleVisibilityClose,
+} = DropdownSlice.actions;
 export default DropdownSlice.reducer;
