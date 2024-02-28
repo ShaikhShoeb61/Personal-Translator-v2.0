@@ -10,6 +10,13 @@ const TranslationOutput = () => {
     (state) => state.dropdown.OutputDropdownActive
   );
 
+  const FirstOutputLanguage = useSelector(
+    (state) => state.Outputlanguage.FirstLanguage
+  );
+  const SecondOutputLanguage = useSelector(
+    (state) => state.Outputlanguage.SecondLanguage
+  );
+
   const HandleOutputToggle = () => {
     dispatch(toggleOutputDropdown());
   };
@@ -20,10 +27,20 @@ const TranslationOutput = () => {
     <div className="w-[20.5rem] h-[28rem] rounded-2xl border border-customgray-300 border-opacity-50 flex flex-col justify-between">
       <div className="flex w-full h-10 items-center gap-4">
         <div className="pl-3 h-full flex items-center rounded-tl-2xl border-t border-l border-t-green-500 border-l-green-500">
-          <span className="text-sm font-medium text-green-500">Hindi</span>
+          <span
+            className="text-sm font-medium text-green-500"
+            data-lang={FirstOutputLanguage.code}
+          >
+            {FirstOutputLanguage.name}
+          </span>
         </div>
         <div className="h-full flex items-center">
-          <span className="text-sm font-medium text-customgray-300">Urdu</span>
+          <span
+            className="text-sm font-medium text-customgray-300"
+            data-lang={SecondOutputLanguage.code}
+          >
+            {SecondOutputLanguage.name}
+          </span>
         </div>
         <animated.img
           className="w-6 customgray-300 cursor-pointer"
