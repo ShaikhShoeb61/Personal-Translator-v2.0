@@ -8,6 +8,16 @@ const TranslationInput = () => {
   const InputDropdownActive = useSelector(
     (state) => state.dropdown.InputDropdownActive
   );
+  const FirstInputLanguage = useSelector(
+    (state) => state.InputLanguage.FirstLanguage
+  );
+  const SecondInputLanguage = useSelector(
+    (state) => state.InputLanguage.SecondLanguage
+  );
+
+  const isActive = useSelector(
+    (state) => state.InputLanguage.FirstLanguage.isActive
+  );
 
   const HandleInputToggle = () => {
     dispatch(toggleInputDropdown());
@@ -19,17 +29,31 @@ const TranslationInput = () => {
     <div className="w-[20.5rem] h-[28rem] rounded-2xl border border-customgray-300 border-opacity-50 flex flex-col justify-between">
       <div className="flex w-full h-10 items-center gap-4">
         <div className="pl-3 h-full flex items-center rounded-tl-2xl border-t border-l border-t-green-500 border-l-green-500">
-          <span className="text-sm font-medium text-green-500">
+          <span
+            className={`text-sm font-medium ${
+              isActive ? "text-customgreen-500" : "text-customgray-300"
+            }`}
+          >
             Detect language
           </span>
         </div>
         <div className="h-full flex items-center">
-          <span className="text-sm font-medium text-customgray-300">
-            English
+          <span
+            className={`text-sm font-medium  ${
+              isActive ? "text-customgreen-500" : "text-customgray-300"
+            }`}
+            data-lang={FirstInputLanguage.code}
+          >
+            {FirstInputLanguage.name}
           </span>
         </div>
         <div className="h-full flex items-center">
-          <span className="text-sm font-medium text-customgray-300">Hindi</span>
+          <span
+            className="text-sm font-medium text-customgray-300"
+            data-lang={SecondInputLanguage.code}
+          >
+            {SecondInputLanguage.name}
+          </span>
         </div>
         <animated.img
           className="w-6 customgray-300 cursor-pointer"
@@ -42,7 +66,7 @@ const TranslationInput = () => {
         />
       </div>
       <textarea
-        className="w-full h-[23rem] px-4 text-base font-normal text-customgray-500 outline-none"
+        className="w-full h-[23rem] px-4 text-base font-normal text-customgray-500 outline-none resize-none"
         name="input"
         autoCorrect="on"
       ></textarea>
