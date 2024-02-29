@@ -13,14 +13,20 @@ const SupportedLanguages = () => {
     isError: error,
   } = useGetLanguagesListQuery();
   const [InputText, setInputText] = useState("");
+  const [activeIndex, setActiveIndex] = useState(null);
 
   const { FilteredLanguages } = useLanguagesFilter(data, InputText);
+
+  const { HandleLanguageSelection } = useLanguageSelection();
 
   const HandleBackButton = () => {
     dispatch(toggleVisibilityClose());
   };
 
-  const { HandleLanguageSelection } = useLanguageSelection();
+  const handleLanguageClick = (index, lang, e) => {
+    HandleLanguageSelection(lang, e);
+    setActiveIndex(index);
+  };
 
   return (
     <div className="w-full h-[23rem] absolute top-[9%] bg-white border-b border-x border-customgray-300 border-opacity-50">
@@ -51,17 +57,16 @@ const SupportedLanguages = () => {
           ) : FilteredLanguages.length === 0 ? (
             <div className="absolute left-[45%] top-[45%]">No results</div>
           ) : (
-            FilteredLanguages.map((lang) =>
+            FilteredLanguages.map((lang, index) =>
               lang.name && lang.code ? (
                 <div
-                  className="w-[10.5rem] h-[2rem] px-[1.25rem] hover:bg-customgreen-50 hover:cursor-pointer flex items-center"
-                  onClick={(e) => HandleLanguageSelection(e)}
+                  className={`w-[10.5rem] h-[2rem] px-[1.25rem] hover:bg-customgreen-50 hover:cursor-pointer flex items-center ${
+                    activeIndex === index ? "bg-customgreen-50" : ""
+                  }`}
+                  onClick={(e) => handleLanguageClick(index, lang, e)}
                   key={lang.code}
                 >
-                  <span
-                    className="text-[0.87rem] font-normal"
-                    data-lang={lang.code}
-                  >
+                  <span className="text-[0.87rem] font-normal">
                     {lang.name}
                   </span>
                 </div>

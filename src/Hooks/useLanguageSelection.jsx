@@ -6,7 +6,6 @@ import { OutputLanguageSelection } from "../Services/State/Slices/OutputLanguage
 const useLanguageSelection = () => {
   const dispatch = useDispatch();
 
-
   const InputDropdownActive = useSelector(
     (state) => state.dropdown.InputDropdownActive
   );
@@ -14,27 +13,30 @@ const useLanguageSelection = () => {
     (state) => state.dropdown.OutputDropdownActive
   );
 
-  const HandleLanguageSelection = (e) => {
-    if (!e || !e.target) {
-      console.error("Event object or event target is undefined");
-      return;
-    }
-
-    const name = e.target.innerText;
-    const code = e.target.getAttribute("data-lang");
-
-    if (!name || !code) {
-      console.error("Language name or code is undefined");
-      return;
-    }
-
-    if (InputDropdownActive) {
-      dispatch(InputLanguageSelection({ name, code, isActive:true }));
+  const HandleLanguageSelection = (lang, e) => {
+    if (
+      e.target.innerText.toLowerCase().includes(lang.name.toLowerCase()) &&
+      InputDropdownActive
+    ) {
+      dispatch(
+        InputLanguageSelection({
+          name: lang.name,
+          code: lang.code,
+        })
+      );
       dispatch(toggleVisibilityClose());
     }
 
-    if (OutputDropdownActive) {
-      dispatch(OutputLanguageSelection({ name, code }));
+    if (
+      e.target.innerText.toLowerCase().includes(lang.name.toLowerCase()) &&
+      OutputDropdownActive
+    ) {
+      dispatch(
+        OutputLanguageSelection({
+          name: lang.name,
+          code: lang.code,
+        })
+      );
       dispatch(toggleVisibilityClose());
     }
   };

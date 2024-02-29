@@ -1,14 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  FirstLanguage: {
-    name: "Hindi",
-    code: "hi",
-  },
-  SecondLanguage: {
-    name: "Urdu",
-    code: "ur",
-  },
+  LanguagesBar:[
+    {
+      type: "output-first-language",
+      name: "English",
+      code: "en",
+    },
+    {
+      type: "output-second-lnguage",
+      name: "Hindi",
+      code: "hi",
+    }
+  ],
 };
 
 const OutputLanguagesSlice = createSlice({
@@ -17,7 +21,11 @@ const OutputLanguagesSlice = createSlice({
   reducers: {
     OutputLanguageSelection: (state, action) => {
       const { name, code } = action.payload;
-      state.FirstLanguage = { name, code };
+      const language = state.LanguagesBar.find(lang => lang.type === "output-first-language");
+      if (language) {
+        language.name = name;
+        language.code = code;
+      }
     },
   },
 });

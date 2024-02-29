@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { animated } from "@react-spring/web";
 import { toggleInputDropdown } from "../Services/State/Slices/DropdownSlice";
 import useDropdownAnimation from "../Hooks/useDropdownAnimation";
+import useLanguageSelected from "../Hooks/useLanguageSelected";
 
 const TranslationInput = () => {
   const dispatch = useDispatch();
@@ -9,52 +10,44 @@ const TranslationInput = () => {
     (state) => state.dropdown.InputDropdownActive
   );
   const FirstInputLanguage = useSelector(
-    (state) => state.InputLanguage.FirstLanguage
+    (state) => state.InputLanguage.LanguagesBar
   );
-  const SecondInputLanguage = useSelector(
-    (state) => state.InputLanguage.SecondLanguage
-  );
-
-  const isActive = useSelector(
-    (state) => state.InputLanguage.FirstLanguage.isActive
-  );
+  const { DropdownAnimation } = useDropdownAnimation(InputDropdownActive);
 
   const HandleInputToggle = () => {
     dispatch(toggleInputDropdown());
   };
 
-  const { DropdownAnimation } = useDropdownAnimation(InputDropdownActive);
+  const { HandleClassName, HandleLanguageSelection, active } =
+    useLanguageSelected();
 
   return (
     <div className="w-[20.5rem] h-[28rem] rounded-2xl border border-customgray-300 border-opacity-50 flex flex-col justify-between">
       <div className="flex w-full h-10 items-center gap-4">
-        <div className="pl-3 h-full flex items-center rounded-tl-2xl border-t border-l border-t-green-500 border-l-green-500">
-          <span
-            className={`text-sm font-medium ${
-              isActive ? "text-customgreen-500" : "text-customgray-300"
-            }`}
-          >
-            Detect language
-          </span>
-        </div>
-        <div className="h-full flex items-center">
-          <span
-            className={`text-sm font-medium  ${
-              isActive ? "text-customgreen-500" : "text-customgray-300"
-            }`}
-            data-lang={FirstInputLanguage.code}
-          >
-            {FirstInputLanguage.name}
-          </span>
-        </div>
-        <div className="h-full flex items-center">
-          <span
-            className="text-sm font-medium text-customgray-300"
-            data-lang={SecondInputLanguage.code}
-          >
-            {SecondInputLanguage.name}
-          </span>
-        </div>
+        {FirstInputLanguage &&
+          FirstInputLanguage.map((lang, index) => (
+            <div
+              className={`${
+                lang.type === "auto-detect" ? "pl-3" : ""
+              } h-full flex items-center cursor-pointer ${HandleClassName(
+                lang.type,
+                index
+              )}`}
+              key={index}
+              onClick={(e) => HandleLanguageSelection(index)}
+            >
+              <span
+                className={`text-sm font-medium ${
+                  index === active
+                    ? "text-customgreen-500"
+                    : "text-customgray-300"
+                }`}
+              >
+                {lang.name}
+              </span>
+            </div>
+          ))}
+
         <animated.img
           className="w-6 customgray-300 cursor-pointer"
           src="./Icons/chevron-down.svg"
