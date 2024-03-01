@@ -1,16 +1,36 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { LanguagesListApi } from "../Api/LanguagesListApi";
-import dropdownReducer from "./Slices/DropdownSlice";
-import InputLanguagesReducer from "./Slices/InputLanguagesSlice";
-import OutputLanguagesReducer from "./Slices/OutputLanguagesSlice";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import RootReducer from "./RootReducer";
+
+const persistConfig = {
+  key: "root",
+  storage,
+  blacklist: [],
+};
+
+const PersistedReducer = persistReducer(persistConfig, RootReducer);
 
 export const store = configureStore({
   reducer: {
     [LanguagesListApi.reducerPath]: LanguagesListApi.reducer,
-    dropdown: dropdownReducer,
-    InputLanguage: InputLanguagesReducer,
-    Outputlanguage: OutputLanguagesReducer,
+    PersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(LanguagesListApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(LanguagesListApi.middleware),
 });
+export const persistor = persistStore(store);
