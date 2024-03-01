@@ -1,50 +1,63 @@
 import React from "react";
 import { animated } from "@react-spring/web";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleOutputDropdown } from "../Services/State/Slices/DropdownSlice";
 import useDropdownAnimation from "../Hooks/useDropdownAnimation";
 import useLanguageSelected from "../Hooks/useLanguageSelected";
+import useLanguageParams from "../Hooks/useLanguageParams";
 
 const TranslationOutput = () => {
   const dispatch = useDispatch();
+
   const OutputDropdownActive = useSelector(
-    (state) => state.dropdown.OutputDropdownActive
+    (state) => state.PersistedReducer.dropdown.OutputDropdownActive
   );
 
   const FirstOutputLanguage = useSelector(
-    (state) => state.Outputlanguage.LanguagesBar
+    (state) => state.PersistedReducer.Outputlanguage.LanguagesBar
   );
+
+  const ActiveIndexOutput = useSelector(
+    (state) => state.PersistedReducer.Outputlanguage.ActiveLanguageIndexOutput
+  );
+  const { DropdownAnimation } = useDropdownAnimation(OutputDropdownActive);
+  const { HandleParams, SourceLanguage } = useLanguageParams();
+  const { HandleClassName, HandleLanguageSelection } = useLanguageSelected();
 
   const HandleOutputToggle = () => {
     dispatch(toggleOutputDropdown());
   };
-
-  const { DropdownAnimation } = useDropdownAnimation(OutputDropdownActive);
-  const { HandleClassName, HandleLanguageSelection, active } =
-    useLanguageSelected();
 
   return (
     <div className="w-[20.5rem] h-[28rem] rounded-2xl border border-customgray-300 border-opacity-50 flex flex-col justify-between">
       <div className="flex w-full h-10 items-center gap-4">
         {FirstOutputLanguage &&
           FirstOutputLanguage.map((lang, index) => (
-            <div
+            <Link
+              to={{
+                pathname: "/",
+                search: `?sl=${SourceLanguage}&tl=${lang.code}&op=translate`,
+              }}
               className={`h-full flex items-center cursor-pointer ${
                 lang.type === "output-first-language" ? "pl-3" : ""
               } ${HandleClassName(lang.type, index)}`}
               key={index}
-              onClick={(e) => HandleLanguageSelection(index)}
+              onClick={() => {
+                HandleLanguageSelection(index, lang);
+                HandleParams(lang.code);
+              }}
             >
               <span
                 className={`text-sm font-medium ${
-                  index === active
+                  index === ActiveIndexOutput
                     ? "text-customgreen-500"
                     : "text-customgray-300"
                 }`}
               >
                 {lang.name}
               </span>
-            </div>
+            </Link>
           ))}
 
         <animated.img

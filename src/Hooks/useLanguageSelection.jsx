@@ -7,10 +7,10 @@ const useLanguageSelection = () => {
   const dispatch = useDispatch();
 
   const InputDropdownActive = useSelector(
-    (state) => state.dropdown.InputDropdownActive
+    (state) => state.PersistedReducer.dropdown.InputDropdownActive
   );
   const OutputDropdownActive = useSelector(
-    (state) => state.dropdown.OutputDropdownActive
+    (state) => state.PersistedReducer.dropdown.OutputDropdownActive
   );
 
   const HandleLanguageSelection = (lang, e) => {

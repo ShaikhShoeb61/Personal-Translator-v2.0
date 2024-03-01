@@ -1,32 +1,42 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { animated } from "@react-spring/web";
+import { Link } from "react-router-dom";
 import { toggleInputDropdown } from "../Services/State/Slices/DropdownSlice";
 import useDropdownAnimation from "../Hooks/useDropdownAnimation";
 import useLanguageSelected from "../Hooks/useLanguageSelected";
+import useLanguageParams from "../Hooks/useLanguageParams";
 
 const TranslationInput = () => {
   const dispatch = useDispatch();
+
   const InputDropdownActive = useSelector(
-    (state) => state.dropdown.InputDropdownActive
+    (state) => state.PersistedReducer.dropdown.InputDropdownActive
   );
   const FirstInputLanguage = useSelector(
-    (state) => state.InputLanguage.LanguagesBar
+    (state) => state.PersistedReducer.InputLanguage.LanguagesBar
+  );
+  const ActiveIndexInput = useSelector(
+    (state) => state.PersistedReducer.InputLanguage.ActiveLanguageIndexInput
   );
   const { DropdownAnimation } = useDropdownAnimation(InputDropdownActive);
+  const { HandleClassName, HandleLanguageSelection } = useLanguageSelected();
+  const { HandleParams, TargetLanguage } = useLanguageParams();
 
   const HandleInputToggle = () => {
     dispatch(toggleInputDropdown());
   };
-
-  const { HandleClassName, HandleLanguageSelection, active } =
-    useLanguageSelected();
 
   return (
     <div className="w-[20.5rem] h-[28rem] rounded-2xl border border-customgray-300 border-opacity-50 flex flex-col justify-between">
       <div className="flex w-full h-10 items-center gap-4">
         {FirstInputLanguage &&
           FirstInputLanguage.map((lang, index) => (
-            <div
+            <Link
+              to={{
+                pathname: "/",
+                search: `?sl=${lang.code}&tl=${TargetLanguage}&op=translate`,
+              }}
               className={`${
                 lang.type === "auto-detect" ? "pl-3" : ""
               } h-full flex items-center cursor-pointer ${HandleClassName(
@@ -34,18 +44,21 @@ const TranslationInput = () => {
                 index
               )}`}
               key={index}
-              onClick={(e) => HandleLanguageSelection(index)}
+              onClick={() => {
+                HandleLanguageSelection(index, lang);
+                HandleParams(lang.code);
+              }}
             >
               <span
                 className={`text-sm font-medium ${
-                  index === active
+                  index === ActiveIndexInput
                     ? "text-customgreen-500"
                     : "text-customgray-300"
                 }`}
               >
                 {lang.name}
               </span>
-            </div>
+            </Link>
           ))}
 
         <animated.img
