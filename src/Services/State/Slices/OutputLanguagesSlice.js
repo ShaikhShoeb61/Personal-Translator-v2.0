@@ -1,41 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  LanguagesBar: [
-    {
-      type: "output-first-language",
-      name: "English",
-      code: "en",
-    },
-    {
-      type: "output-second-lnguage",
-      name: "Hindi",
-      code: "hi",
-    },
-  ],
-  ActiveLanguageIndexOutput: null,
+  targetLanguage: {
+    name: "Urdu",
+    code: "ur",
+  },
+  supportLanguageOutput: {
+    name: "Hindi",
+    code: "hi",
+  },
+
+  activeOutput: "ur",
 };
 
 const OutputLanguagesSlice = createSlice({
-  name: "Outputlanguage",
+  name: "outputLanguage",
   initialState,
   reducers: {
-    OutputLanguageSelection: (state, action) => {
+    setTargetLanguage: (state, action)=>{
       const { name, code } = action.payload;
-      const language = state.LanguagesBar.find(
-        (lang) => lang.type === "output-first-language"
-      );
-      if (language) {
-        language.name = name;
-        language.code = code;
-      }
+      state.targetLanguage.name = name;
+      state.targetLanguage.code = code;
     },
-    SetActiveLanguageIndexOutput(state, action) {
-      state.ActiveLanguageIndexOutput = action.payload;
+    setActiveOutput: (state, action) => {
+      state.activeOutput = action.payload;
     },
   },
 });
 
-export const { OutputLanguageSelection, SetActiveLanguageIndexOutput } =
-  OutputLanguagesSlice.actions;
+export const {setTargetLanguage, setActiveOutput} = OutputLanguagesSlice.actions
 export default OutputLanguagesSlice.reducer;

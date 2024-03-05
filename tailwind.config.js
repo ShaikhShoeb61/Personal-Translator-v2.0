@@ -19,8 +19,8 @@ export default {
           500: '#4caf50', // Primary color
         },
         // Grey palette
-        customgray: {
-          200: '#C1C1C1',  // Extra lighter of gray
+        customgrey: {
+          200: '#C1C1C1',  // Extra lighter of grey
           300: '#7C7F81', // Lighter shade of grey
           400: '#636669', // Hover color variant
           500: '#3C4043', // Secondary color

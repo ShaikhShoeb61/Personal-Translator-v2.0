@@ -1,12 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import dropdownReducer from "./Slices/DropdownSlice";
-import InputLanguagesReducer from "./Slices/InputLanguagesSlice";
-import OutputLanguagesReducer from "./Slices/OutputLanguagesSlice";
+import inputLanguagesReducer from "./Slices/InputLanguagesSlice"
+import outputLanguagesReducer from "./Slices/OutputLanguagesSlice";
 
 const RootReducer = combineReducers({
   dropdown: dropdownReducer,
-  InputLanguage: InputLanguagesReducer,
-  Outputlanguage: OutputLanguagesReducer,
+  inputLanguage: inputLanguagesReducer,
+  outputLanguage: outputLanguagesReducer,
 });
 
 export default RootReducer;

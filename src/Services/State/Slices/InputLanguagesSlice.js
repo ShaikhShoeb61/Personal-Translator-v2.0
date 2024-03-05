@@ -1,48 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  LanguagesBar: [
-    {
-      type: "auto-detect",
-      name: "Detect Language",
-      code: "auto",
-    },
-    {
-      type: "input-first-language",
-      name: "English",
-      code: "en",
-    },
-    {
-      type: "input-second-lnguage",
-      name: "Hindi",
-      code: "hi",
-    },
-  ],
+  detectLanguage: {
+    name: "Detect language",
+    code: "auto",
+  },
+  sourceLanguage: {
+    name: "English",
+    code: "en",
+  },
+  supportLanguageInput: {
+    name: "Hindi",
+    code: "hi",
+  },
 
-  ActiveLanguageIndexInput: null,
+  activeInput: "auto",
+  inputText: "",
 };
 
-const InputLanguagesSlice = createSlice({
-  name: "InputLanguage",
+const inputLanguageSlice = createSlice({
+  name: "inputLanguage",
   initialState,
   reducers: {
-    InputLanguageSelection: (state, action) => {
+    setSourceLanguage: (state, action) => {
       const { name, code } = action.payload;
-      const language = state.LanguagesBar.find(
-        (lang) => lang.type === "input-first-language"
-      );
-      if (language) {
-        language.name = name;
-        language.code = code;
-      }
+      state.sourceLanguage.name = name;
+      state.sourceLanguage.code = code;
     },
 
-    SetActiveLanguageIndexInput(state, action) {
-      state.ActiveLanguageIndexInput = action.payload;
+    setActiveInput: (state, action) => {
+      state.activeInput = action.payload;
+    },
+    setInputText: (state, action) => {
+      state.inputText = action.payload;
     },
   },
 });
 
-export const { InputLanguageSelection, SetActiveLanguageIndexInput } =
-  InputLanguagesSlice.actions;
-export default InputLanguagesSlice.reducer;
+export const { setSourceLanguage, setActiveInput, setInputText } = inputLanguageSlice.actions;
+export default inputLanguageSlice.reducer;

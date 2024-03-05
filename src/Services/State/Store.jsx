@@ -11,15 +11,15 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import RootReducer from "./RootReducer";
+import rootReducer from "./RootReducer";
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [],
+  whitelist: ["inputLanguage","outputLanguage"],
 };
 
-const PersistedReducer = persistReducer(persistConfig, RootReducer);
+const PersistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: {
