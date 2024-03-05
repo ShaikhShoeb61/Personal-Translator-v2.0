@@ -2,34 +2,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  InputDropdownActive: false,
-  OutputDropdownActive: false,
+  inputDropdownActive: false,
+  outputDropdownActive: false,
 };
 
 const DropdownSlice = createSlice({
-  name: "Dropdown",
+  name: "dropdown",
   initialState,
   reducers: {
     toggleInputDropdown(state) {
-      if (state.OutputDropdownActive) {
-        state.OutputDropdownActive = false;
-        state.InputDropdownActive = false;
+      if (state.outputDropdownActive) {
+        state.outputDropdownActive = false;
+        state.inputDropdownActive = false;
         return;
       }
 
-      state.InputDropdownActive = !state.InputDropdownActive;
+      state.inputDropdownActive = !state.inputDropdownActive;
     },
     toggleOutputDropdown(state) {
-      if (state.InputDropdownActive) {
-        state.InputDropdownActive = false;
-        state.OutputDropdownActive = false;
+      if (state.inputDropdownActive) {
+        state.inputDropdownActive = false;
+        state.outputDropdownActive = false;
         return;
       }
-      state.OutputDropdownActive = !state.OutputDropdownActive;
+      state.outputDropdownActive = !state.outputDropdownActive;
     },
     toggleVisibilityClose(state) {
-      state.OutputDropdownActive = false;
-      state.InputDropdownActive = false;
+      state.outputDropdownActive = false;
+      state.inputDropdownActive = false;
     },
   },
 });

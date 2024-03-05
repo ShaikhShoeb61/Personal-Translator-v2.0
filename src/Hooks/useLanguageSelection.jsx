@@ -1,25 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
+import { setSourceLanguage } from "../Services/State/Slices/InputLanguagesSlice";
+import { setTargetLanguage } from "../Services/State/Slices/OutputLanguagesSlice";
 import { toggleVisibilityClose } from "../Services/State/Slices/DropdownSlice";
-import { InputLanguageSelection } from "../Services/State/Slices/InputLanguagesSlice";
-import { OutputLanguageSelection } from "../Services/State/Slices/OutputLanguagesSlice";
 
 const useLanguageSelection = () => {
   const dispatch = useDispatch();
 
-  const InputDropdownActive = useSelector(
-    (state) => state.PersistedReducer.dropdown.InputDropdownActive
+  const inputDropdownActive = useSelector(
+    (state) => state.PersistedReducer.dropdown.inputDropdownActive
   );
-  const OutputDropdownActive = useSelector(
-    (state) => state.PersistedReducer.dropdown.OutputDropdownActive
+  const outputDropdownActive = useSelector(
+    (state) => state.PersistedReducer.dropdown.outputDropdownActive
   );
 
-  const HandleLanguageSelection = (lang, e) => {
-    if (
-      e.target.innerText.toLowerCase().includes(lang.name.toLowerCase()) &&
-      InputDropdownActive
-    ) {
+  const selectedLanguage = (lang) => {
+    if (inputDropdownActive) {
       dispatch(
-        InputLanguageSelection({
+        setSourceLanguage({
           name: lang.name,
           code: lang.code,
         })
@@ -27,12 +24,9 @@ const useLanguageSelection = () => {
       dispatch(toggleVisibilityClose());
     }
 
-    if (
-      e.target.innerText.toLowerCase().includes(lang.name.toLowerCase()) &&
-      OutputDropdownActive
-    ) {
+    if (outputDropdownActive) {
       dispatch(
-        OutputLanguageSelection({
+        setTargetLanguage({
           name: lang.name,
           code: lang.code,
         })
@@ -41,7 +35,7 @@ const useLanguageSelection = () => {
     }
   };
 
-  return { HandleLanguageSelection };
+  return { selectedLanguage };
 };
 
 export default useLanguageSelection;

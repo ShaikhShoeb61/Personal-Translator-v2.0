@@ -1,22 +1,62 @@
+import TranslatorPanel from "../Components/translatorPanel";
+import HeaderSection from "../Components/UI/headerSection";
+import FooterSection from "../Components/UI/FooterSection";
+import TextField from "../Components/UI/TextField";
 import SupportedLanguages from "../Components/SupportedLanguages";
-import TranslationInput from "../Components/TranslationInput";
-import TranslationOutput from "../Components/TranslationOutput";
 import { useSelector } from "react-redux";
 import SwipeLanguage from "../Components/UI/SwipeLanguage";
-
 const Home = () => {
-  const InputDropdownActive = useSelector(
-    (state) => state.PersistedReducer.dropdown.InputDropdownActive
+  const inputDropdownActive = useSelector(
+    (state) => state.PersistedReducer.dropdown.inputDropdownActive
   );
-  const OutputDropdownActive = useSelector(
-    (state) => state.PersistedReducer.dropdown.OutputDropdownActive
+  const outputDropdownActive = useSelector(
+    (state) => state.PersistedReducer.dropdown.outputDropdownActive
   );
+
+  const { detectLanguage, sourceLanguage, supportLanguageInput } = useSelector(
+    (state) => state.PersistedReducer.inputLanguage
+  );
+
+  const { targetLanguage, supportLanguageOutput } = useSelector(
+    (state) => state.PersistedReducer.outputLanguage
+  );
+
   return (
     <main className="flex gap-6 relative">
-      {(InputDropdownActive || OutputDropdownActive) && <SupportedLanguages />}
-      <TranslationInput />
-      <SwipeLanguage src={"/Icons/swipe.svg"} />
-      <TranslationOutput />
+      {(inputDropdownActive || outputDropdownActive) && <SupportedLanguages />}
+      <TranslatorPanel
+        HeaderSection={
+          <HeaderSection
+            detectLanguage={detectLanguage}
+            sourceLanguage={sourceLanguage}
+            supportLanguageInput={supportLanguageInput}
+          />
+        }
+        FooterSection={
+          <FooterSection
+            playIcon="/Icons/play.svg"
+            recordIcon="/Icons/microphone-02.svg"
+            inputCounts="0 / 1000"
+          />
+        }
+        TextField={<TextField />}
+      />
+      <SwipeLanguage src="\Icons\swipe.svg" />
+      <TranslatorPanel
+        HeaderSection={
+          <HeaderSection
+            targetLanguage={targetLanguage}
+            supportLanguageOutput={supportLanguageOutput}
+          />
+        }
+        FooterSection={
+          <FooterSection
+            playIcon="/Icons/play.svg"
+            copyIcon="/Icons/clipboard.svg"
+            newPanelIcon="/Icons/copy-02.svg"
+          />
+        }
+      />
     </main>
   );
 };

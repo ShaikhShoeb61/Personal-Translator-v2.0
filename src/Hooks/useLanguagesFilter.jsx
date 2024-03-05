@@ -1,8 +1,8 @@
 const useLanguagesFilter = (data, inputText) => {
-  const FilteredLanguages = data?.filter((lang) =>
-    lang?.name?.toLowerCase().includes(inputText.toLowerCase())
+  const filteredLanguages = data?.filter((lang) =>
+    lang?.name?.toLowerCase().includes(inputText?.toLowerCase())
   );
-  return { FilteredLanguages };
+  return { filteredLanguages };
 };
 
 export default useLanguagesFilter;
