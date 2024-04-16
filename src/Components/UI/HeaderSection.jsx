@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   toggleInputDropdown,
   toggleOutputDropdown,
+  toggleNewPanelDropdown,
 } from "../../Services/State/Slices/DropdownSlice";
 import useSetSearchParams from "../../Hooks/useSetSearchParams";
 import { setActiveInput } from "../../Services/State/Slices/InputLanguagesSlice";
 import { setActiveOutput } from "../../Services/State/Slices/OutputLanguagesSlice";
+import { setActiveNewPanel } from "../../Services/State/Slices/OutputLanguagesSlice";
 
 const HeaderSection = ({
   detectLanguage,
@@ -17,6 +19,12 @@ const HeaderSection = ({
   supportLanguageInput,
   targetLanguage,
   supportLanguageOutput,
+  newPanelTargetLanguage,
+  newPanelSupportLanguage,
+  handleCloseNewPanel,
+  closeIcon,
+  newPanelActive,
+  newPanel,
 }) => {
   const activeInput = useSelector(
     (state) => state.PersistedReducer.inputLanguage.activeInput
@@ -27,8 +35,11 @@ const HeaderSection = ({
 
   const dispatch = useDispatch();
 
-  const { inputDropdownAnimation, outputDropdownAnimation } =
-    useDropdownAnimation();
+  const {
+    inputDropdownAnimation,
+    outputDropdownAnimation,
+    newPanelDropdownAnimation,
+  } = useDropdownAnimation();
 
   const handleInputToggle = () => {
     dispatch(toggleInputDropdown());
@@ -37,20 +48,25 @@ const HeaderSection = ({
   const handleOutputToggle = () => {
     dispatch(toggleOutputDropdown());
   };
+  const handleNewPanelToggle = () => {
+    dispatch(toggleNewPanelDropdown());
+  };
 
   const { setParams } = useSetSearchParams();
 
-  const handleNavLinkClick = (value, input) => {
-    if (input) {
+  const handleNavLinkClick = (value) => {
+    if (detectLanguage && sourceLanguage && supportLanguageInput) {
       dispatch(setActiveInput(value));
-    } else {
+    } else if (targetLanguage && supportLanguageOutput) {
       dispatch(setActiveOutput(value));
+    } else {
+      dispatch(setActiveNewPanel(value));
     }
   };
 
   return (
-    <div className="flex w-full h-10 items-center gap-4">
-      {detectLanguage && sourceLanguage && supportLanguageInput ? (
+    <div className="flex w-full h-10 items-center gap-4 relative">
+      {detectLanguage && sourceLanguage && supportLanguageInput && (
         <>
           <NavLink
             to={setParams("sl", detectLanguage.code, true)}
@@ -111,7 +127,9 @@ const HeaderSection = ({
             </span>
           </NavLink>
         </>
-      ) : (
+      )}
+
+      {targetLanguage && supportLanguageOutput && (
         <>
           <NavLink
             to={setParams("tl", targetLanguage.code, false)}
@@ -155,6 +173,50 @@ const HeaderSection = ({
           </NavLink>
         </>
       )}
+
+      {newPanel && newPanelTargetLanguage && newPanelSupportLanguage && (
+        <>
+          <NavLink
+            to={setParams("atl", newPanelTargetLanguage.code)}
+            className={`pl-3 h-full flex items-center cursor-pointer ${
+              newPanelActive === newPanelTargetLanguage.code
+                ? " rounded-tl-2xl border-t border-l border-t-customgreen-500 border-l-customgreen-500 text-customgreen-500"
+                : "text-customgrey-400 hover:text-customgrey-500"
+            }`}
+            onClick={() => handleNavLinkClick(newPanelTargetLanguage.code)}
+          >
+            <span
+              className={`text-sm font-medium ${
+                newPanelActive === newPanelTargetLanguage.code
+                  ? "text-customgreen-500"
+                  : "text-customgrey-400 hover:text-customgrey-500"
+              }`}
+            >
+              {newPanelTargetLanguage.name}
+            </span>
+          </NavLink>
+          <NavLink
+            to={setParams("atl", newPanelSupportLanguage.code)}
+            className={`h-full flex items-center cursor-pointer ${
+              newPanelActive === "ur"
+                ? "text-customgreen-500 border-t border-t-customgreen-500 "
+                : "text-customgrey-400 hover:text-customgrey-500"
+            }`}
+            onClick={() => handleNavLinkClick(newPanelSupportLanguage.code)}
+          >
+            <span
+              className={`text-sm font-medium ${
+                newPanelActive === "ur"
+                  ? "text-customgreen-500"
+                  : "text-customgrey-400 hover:text-customgrey-500"
+              }`}
+            >
+              {newPanelSupportLanguage.name}
+            </span>
+          </NavLink>
+        </>
+      )}
+
       <animated.img
         className="w-6 customgray-300 cursor-pointer"
         src="./Icons/chevron-down.svg"
@@ -162,16 +224,29 @@ const HeaderSection = ({
         onClick={() => {
           if (detectLanguage && sourceLanguage && supportLanguageInput) {
             handleInputToggle();
-          } else {
+          } else if (targetLanguage && supportLanguageOutput) {
             handleOutputToggle();
+          } else {
+            handleNewPanelToggle();
           }
         }}
         style={
           detectLanguage || sourceLanguage || supportLanguageInput
             ? inputDropdownAnimation
-            : outputDropdownAnimation
+            : targetLanguage || supportLanguageOutput
+            ? outputDropdownAnimation
+            : newPanelDropdownAnimation
         }
       />
+
+      {newPanel && (
+        <img
+          className="w-5 absolute right-3 cursor-pointer"
+          src={closeIcon}
+          alt="close-icon"
+          onClick={handleCloseNewPanel}
+        />
+      )}
     </div>
   );
 };

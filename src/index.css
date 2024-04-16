@@ -14,8 +14,17 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   font-family: 'Roboto' , 'Noto Nastaliq Urdu'  , 'Tiro Devanagari Hindi' , sans-serif;
+}
+
+#root{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
 }
 
 

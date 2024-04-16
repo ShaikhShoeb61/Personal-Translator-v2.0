@@ -37,5 +37,6 @@ const inputLanguageSlice = createSlice({
   },
 });
 
-export const { setSourceLanguage, setActiveInput, setInputText } = inputLanguageSlice.actions;
+export const { setSourceLanguage, setActiveInput, setInputText } =
+  inputLanguageSlice.actions;
 export default inputLanguageSlice.reducer;
