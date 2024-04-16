@@ -1,16 +1,16 @@
-import TranslatorPanel from "../Components/translatorPanel";
-import HeaderSection from "../Components/UI/headerSection";
+import { useDispatch, useSelector } from "react-redux";
+import { setInputText } from "../Services/State/Slices/InputLanguagesSlice";
+import { useSearchParams } from "react-router-dom";
+import { setNewPanel } from "../Services/State/Slices/OutputLanguagesSlice";
+import { useAuth0 } from "@auth0/auth0-react";
+import TranslatorPanel from "../Components/TranslatorPanel"
+import HeaderSection from "../Components/UI/HeaderSection";
 import FooterSection from "../Components/UI/FooterSection";
 import TextField from "../Components/UI/TextField";
 import SupportedLanguages from "../Components/SupportedLanguages";
-import { useDispatch, useSelector } from "react-redux";
 import SwipeLanguage from "../Components/UI/SwipeLanguage";
-import { setInputText } from "../Services/State/Slices/InputLanguagesSlice";
-import { useSearchParams } from "react-router-dom";
 import useLanguageSwipe from "../Hooks/useLanguageSwipe";
-import { setNewPanel } from "../Services/State/Slices/OutputLanguagesSlice";
 import useSetSearchParams from "../Hooks/useSetSearchParams";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
   const { isAuthenticated, loginWithPopup } = useAuth0();
