@@ -8,12 +8,18 @@ const useDropdownAnimation = () => {
   const outputDropdownActive = useSelector(
     (state) => state.PersistedReducer.dropdown.outputDropdownActive
   );
+  const newPanelDropdownActive = useSelector(
+    (state) => state.PersistedReducer.dropdown.newPanelDropdownActive
+  );
 
   const [inputDropdownAnimation, inputApi] = useSpring(() => ({
     rotateZ: 0,
   }));
 
   const [outputDropdownAnimation, outputApi] = useSpring(() => ({
+    rotateZ: 0,
+  }));
+  const [newPanelDropdownAnimation, newPanelApi] = useSpring(() => ({
     rotateZ: 0,
   }));
 
@@ -24,8 +30,15 @@ const useDropdownAnimation = () => {
   outputApi.start({
     to: { rotateZ: outputDropdownActive ? 180 : 0 },
   });
+  newPanelApi.start({
+    to: { rotateZ: newPanelDropdownActive ? 180 : 0 },
+  });
 
-  return { inputDropdownAnimation, outputDropdownAnimation };
+  return {
+    inputDropdownAnimation,
+    outputDropdownAnimation,
+    newPanelDropdownAnimation,
+  };
 };
 
 export default useDropdownAnimation;

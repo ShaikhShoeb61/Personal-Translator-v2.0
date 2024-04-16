@@ -1,9 +1,17 @@
-const SwipeLanguage = ({ src }) => {
+const SwipeLanguage = ({
+  src,
+  handleSwipeLanguage,
+  handleSwipeLanguageNewPanel,
+  className,
+}) => {
   return (
     <img
-      className="absolute left-[48.314%] top-[-4%] cursor-pointer"
+      className={className}
       src={src}
       alt="language-swipe"
+      onClick={
+        handleSwipeLanguage ? handleSwipeLanguage : handleSwipeLanguageNewPanel
+      }
     />
   );
 };

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setSourceLanguage } from "../Services/State/Slices/InputLanguagesSlice";
 import { setTargetLanguage } from "../Services/State/Slices/OutputLanguagesSlice";
+import { setNewPanelTargetLanguage } from "../Services/State/Slices/OutputLanguagesSlice";
 import { toggleVisibilityClose } from "../Services/State/Slices/DropdownSlice";
 
 const useLanguageSelection = () => {
@@ -11,6 +12,9 @@ const useLanguageSelection = () => {
   );
   const outputDropdownActive = useSelector(
     (state) => state.PersistedReducer.dropdown.outputDropdownActive
+  );
+  const newPanelDropdownActive = useSelector(
+    (state) => state.PersistedReducer.dropdown.newPanelDropdownActive
   );
 
   const selectedLanguage = (lang) => {
@@ -27,6 +31,16 @@ const useLanguageSelection = () => {
     if (outputDropdownActive) {
       dispatch(
         setTargetLanguage({
+          name: lang.name,
+          code: lang.code,
+        })
+      );
+      dispatch(toggleVisibilityClose());
+    }
+
+    if (newPanelDropdownActive) {
+      dispatch(
+        setNewPanelTargetLanguage({
           name: lang.name,
           code: lang.code,
         })
