@@ -74,7 +74,7 @@ const useTranslation = () => {
           }
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        throw error.message;
       }
     };
 
@@ -90,7 +90,7 @@ const useTranslation = () => {
           const result = await detectLanguage(debouncedText);
           setDetectedLanguage(result?.data?.lang);
         } catch (error) {
-          console.error("Error detecting language:", error);
+          throw error.messege;
         }
       }
     };

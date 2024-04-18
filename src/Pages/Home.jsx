@@ -3,7 +3,7 @@ import { setInputText } from "../Services/State/Slices/InputLanguagesSlice";
 import { useSearchParams } from "react-router-dom";
 import { setNewPanel } from "../Services/State/Slices/OutputLanguagesSlice";
 import { useAuth0 } from "@auth0/auth0-react";
-import TranslatorPanel from "../Components/TranslatorPanel"
+import TranslatorPanel from "../Components/translatorPanel";
 import HeaderSection from "../Components/UI/HeaderSection";
 import FooterSection from "../Components/UI/FooterSection";
 import TextField from "../Components/UI/TextField";
@@ -83,6 +83,7 @@ const Home = () => {
               sourceLanguage={sourceLanguage}
               supportLanguageInput={supportLanguageInput}
             />
+            
           }
           FooterSection={
             <FooterSection
@@ -127,7 +128,9 @@ const Home = () => {
               handleParamsNewPanel={handleParamsNewPanel}
             />
           }
-          TextField={<TextField translatedText={translatedText} />}
+          TextField={
+            <TextField translatedText={translatedText} output={true} />
+          }
         />
         {newPanel ? (
           <>
@@ -156,7 +159,10 @@ const Home = () => {
                 />
               }
               TextField={
-                <TextField newPanelTranslatedText={newPanelTranslatedText} />
+                <TextField
+                  newPanelTranslatedText={newPanelTranslatedText}
+                  output={true}
+                />
               }
             />
           </>
