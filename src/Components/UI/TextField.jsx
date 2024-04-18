@@ -5,6 +5,7 @@ const TextField = ({
   inputText,
   translatedText,
   newPanelTranslatedText,
+  output,
 }) => {
   const { isError, isLoading } = useTranslation();
   const displayText = inputText || translatedText || newPanelTranslatedText;
@@ -16,8 +17,8 @@ const TextField = ({
       <textarea
         className="w-full h-[23rem] px-4 text-base font-normal text-customgray-500 outline-none resize-none"
         name={inputText ? "input" : "output"}
-        readOnly={translatedText || newPanelTranslatedText}
-        value={displayText}
+        value={displayText ? displayText : ""}
+        readOnly={output ? true : false}
         onInput={handleInputText || defaultOnChange}
         maxLength={1000}
       />

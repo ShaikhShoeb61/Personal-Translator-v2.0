@@ -7,7 +7,7 @@ const useVoiceInteraction = (setPaused, setStopListening) => {
 
   React.useEffect(() => {
     if (error) {
-      console.error("Speech recognition error:", error);
+      throw error;
     }
   }, [error]);
 
@@ -33,7 +33,7 @@ const useVoiceInteraction = (setPaused, setStopListening) => {
         alert("Text copied to clipboard");
       })
       .catch((err) => {
-        console.error("Error copying text to clipboard:", err);
+        throw err.message;
       });
   };
 
