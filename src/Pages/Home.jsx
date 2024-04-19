@@ -3,7 +3,7 @@ import { setInputText } from "../Services/State/Slices/InputLanguagesSlice";
 import { useSearchParams } from "react-router-dom";
 import { setNewPanel } from "../Services/State/Slices/OutputLanguagesSlice";
 import { useAuth0 } from "@auth0/auth0-react";
-import TranslatorPanel from "../Components/translatorPanel";
+import { translatorPanel as TranslatorPanel } from "../Components/translatorPanel";
 import HeaderSection from "../Components/UI/HeaderSection";
 import FooterSection from "../Components/UI/FooterSection";
 import TextField from "../Components/UI/TextField";
