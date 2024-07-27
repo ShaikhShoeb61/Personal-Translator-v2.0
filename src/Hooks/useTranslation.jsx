@@ -5,9 +5,8 @@ import {
   setTranslatedText,
   setNewPanelTranslatedText,
 } from "../Services/State/Slices/OutputLanguagesSlice";
-import { useTranslateTextMutation } from "../Services/Api/TranslationApi";
+import { useTranslateTextMutation, useAutoDetectLanguageMutation } from "../Services/Api/TranslationApi";
 import useDebounce from "./useDebounce";
-import { useAutoDetectLanguageMutation } from "../Services/Api/LanguagesListApi";
 
 const useTranslation = () => {
   const dispatch = useDispatch();
@@ -47,9 +46,17 @@ const useTranslation = () => {
         });
 
         if (sourceLanguage === "auto") {
-          dispatch(setTranslatedText(translationData?.data?.translatedText[0]));
+          dispatch(
+            setTranslatedText(
+              translationData?.data?.data?.translations?.translatedText
+            )
+          );
         } else {
-          dispatch(setTranslatedText(translationData?.data?.translatedText));
+          dispatch(
+            setTranslatedText(
+              translationData?.data?.data?.translations?.translatedText
+            )
+          );
         }
 
         if (newPanel) {
@@ -62,13 +69,15 @@ const useTranslation = () => {
           if (sourceLanguage === "auto") {
             dispatch(
               setNewPanelTranslatedText(
-                translationDataNewPanel?.data?.translatedText[0]
+                translationDataNewPanel?.data?.data?.translations
+                  ?.translatedText
               )
             );
           } else {
             dispatch(
               setNewPanelTranslatedText(
-                translationDataNewPanel?.data?.translatedText
+                translationDataNewPanel?.data?.data?.translations
+                  ?.translatedText
               )
             );
           }
@@ -88,7 +97,7 @@ const useTranslation = () => {
       if (sourceLanguage === "auto") {
         try {
           const result = await detectLanguage(debouncedText);
-          setDetectedLanguage(result?.data?.lang);
+          setDetectedLanguage(result.data.data.detections[0].language);
         } catch (error) {
           throw error.messege;
         }

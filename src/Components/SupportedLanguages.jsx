@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useLanguagesFilter from "../Hooks/useLanguagesFilter";
-import { useGetLanguagesListQuery } from "../Services/Api/LanguagesListApi";
+import { useGetLanguagesListQuery } from "../Services/Api/TranslationApi";
 import { toggleVisibilityClose } from "../Services/State/Slices/DropdownSlice";
 import { useDispatch } from "react-redux";
 import useLanguageSelection from "../Hooks/useLanguageSelection";
@@ -12,6 +12,7 @@ const SupportedLanguages = () => {
     isLoading: loading,
     isError: error,
   } = useGetLanguagesListQuery();
+
 
   const [inputText, setInputText] = useState("");
   const dispatch = useDispatch();
@@ -54,13 +55,13 @@ const SupportedLanguages = () => {
             <div className="absolute left-[45%] top-[45%]">No results</div>
           ) : (
             filteredLanguages.map((lang) =>
-              lang.name && lang.code ? (
+              lang.name && lang.language ? (
                 <ul
                   className="w-[10.5rem] h-[2rem] px-[1.25rem] hover:bg-customgreen-50 hover:cursor-pointer flex items-center text-customgray-300"
-                  key={lang.code}
+                  key={lang.language}
                   onClick={(e) => {
                     selectedLanguage(lang, e);
-                    updateParams(lang.code);
+                    updateParams(lang.language);
                   }}
                 >
                   <li className="text-[0.87rem] font-normal">{lang.name}</li>

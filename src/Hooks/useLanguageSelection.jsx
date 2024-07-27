@@ -22,7 +22,7 @@ const useLanguageSelection = () => {
       dispatch(
         setSourceLanguage({
           name: lang.name,
-          code: lang.code,
+          code: lang.language,
         })
       );
       dispatch(toggleVisibilityClose());
@@ -32,7 +32,7 @@ const useLanguageSelection = () => {
       dispatch(
         setTargetLanguage({
           name: lang.name,
-          code: lang.code,
+          code: lang.language,
         })
       );
       dispatch(toggleVisibilityClose());
@@ -42,7 +42,7 @@ const useLanguageSelection = () => {
       dispatch(
         setNewPanelTargetLanguage({
           name: lang.name,
-          code: lang.code,
+          code: lang.language,
         })
       );
       dispatch(toggleVisibilityClose());
